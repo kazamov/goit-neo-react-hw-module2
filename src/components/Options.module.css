@@ -1,0 +1,8 @@
+.options {
+  display: flex;
+  gap: 0.5rem;
+
+  .options-button:hover {
+    cursor: pointer;
+  }
+}
