@@ -5,6 +5,7 @@ import classes from './App.module.css';
 import Description from './Description';
 import Options from './Options';
 import Feedback from './Feedback';
+import Notification from './Notification';
 
 function readFromStorage(key, defaultValue) {
   try {
@@ -28,6 +29,7 @@ const DEFAULT_STATE = {
 function App() {
   const [feedbacks, setFeedbacks] = useState(() => readFromStorage('feedbacks', DEFAULT_STATE));
   const totalFeedback = feedbacks.good + feedbacks.neutral + feedbacks.bad;
+  const positiveFeedback = Math.round((feedbacks.good / totalFeedback) * 100);
 
   const updateFeedback = useCallback(type => {
     setFeedbacks(prevFeedbacks => {
@@ -55,9 +57,13 @@ function App() {
         total={totalFeedback}
       />
       {totalFeedback > 0 ? (
-        <Feedback feedbacks={feedbacks} total={totalFeedback} />
+        <Feedback
+          feedbacks={feedbacks}
+          totalFeedback={totalFeedback}
+          positiveFeedback={positiveFeedback}
+        />
       ) : (
-        <p>No feedback yet</p>
+        <Notification />
       )}
     </div>
   );
